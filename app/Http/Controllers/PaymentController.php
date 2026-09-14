@@ -14,7 +14,7 @@ class PaymentController extends Controller
         protected SslCommerzService $sslcz
     ) {}
 
-  
+
     public function initiate(Request $request)
     {
         $data = $request->validate([
@@ -27,7 +27,7 @@ class PaymentController extends Controller
 
         $tranId = 'TXN_' . Str::upper(Str::random(10)) . '_' . time();
 
-       
+
         $payment = Payment::create([
             'tran_id' => $tranId,
             'order_id' => $data['order_id'] ?? null,
@@ -67,7 +67,7 @@ class PaymentController extends Controller
         );
     }
 
-   
+
     public function success(Request $request)
     {
         $tranId = $request->input('tran_id');
@@ -88,13 +88,15 @@ class PaymentController extends Controller
         $payment = $payment->fresh();
 
         if ($payment->status === 'success') {
-            return redirect('/payment/thank-you');
+            return view('payment.thank-you', [
+                'tranId' => $payment->tran_id
+            ]);
         }
 
         return redirect('/payment/failed');
     }
 
-   
+
     public function fail(Request $request)
     {
         $tranId = $request->input('tran_id');
@@ -129,7 +131,7 @@ class PaymentController extends Controller
         return redirect('/payment/cancelled');
     }
 
-   
+
     public function ipn(Request $request)
     {
         $tranId = $request->input('tran_id');
@@ -156,7 +158,7 @@ class PaymentController extends Controller
         return response('IPN received', 200);
     }
 
- 
+
     public function status(string $tranId): JsonResponse
     {
         $payment = Payment::where('tran_id', $tranId)->first();
@@ -215,7 +217,7 @@ class PaymentController extends Controller
         return response()->json($payload);
     }
 
-   
+
     protected function confirmAndMark(
         Payment $payment,
         ?string $valId
