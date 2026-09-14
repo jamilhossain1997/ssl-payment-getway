@@ -9,39 +9,29 @@ services:
     envVars:
       - key: APP_ENV
         value: production
-
       - key: APP_DEBUG
         value: "false"
-
       - key: APP_KEY
         generateValue: true
 
       - key: DB_CONNECTION
         value: pgsql
-
       - key: DB_HOST
-        value: dpg-daco522fngtc73e632g0-a
-
+        value: dpg-daco522fngtc73e632g0-a.singapore-postgres.render.com
       - key: DB_PORT
         value: "5432"
-
       - key: DB_DATABASE
         value: kanban_db_htzz
-
       - key: DB_USERNAME
         value: kanban_db_htzz_user
-
       - key: DB_PASSWORD
         value: c3on3ZfBu70n2dGxSkoPbVDCuEhe9Scs
-
       - key: DATABASE_URL
-        value: postgresql://kanban_db_htzz_user:c3on3ZfBu70n2dGxSkoPbVDCuEhe9Scs@dpg-daco522fngtc73e632g0-a/kanban_db_htzz
+        value: postgresql://kanban_db_htzz_user:c3on3ZfBu70n2dGxSkoPbVDCuEhe9Scs@dpg-daco522fngtc73e632g0-a.singapore-postgres.render.com/kanban_db_htzz
 
       - key: SSLCOMMERZ_MODE
         value: sandbox
-
       - key: SSLCOMMERZ_STORE_ID
         sync: false
-
       - key: SSLCOMMERZ_STORE_PASSWORD
         sync: false
