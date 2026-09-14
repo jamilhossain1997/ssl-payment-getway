@@ -29,16 +29,16 @@ services:
         value: mysql
 
       - key: DB_HOST
-        value: sql106.infinityfree.com
+        value: sql12.freesqldatabase.com
 
       - key: DB_PORT
         value: "3306"
 
       - key: DB_DATABASE
-        value: if0_42914494_jamil
+        value: sql12837097
 
       - key: DB_USERNAME
-        value: if0_42914494
+        value: sql12837097
 
       - key: DB_PASSWORD
         sync: false
