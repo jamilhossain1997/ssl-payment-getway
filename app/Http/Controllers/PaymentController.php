@@ -14,9 +14,7 @@ class PaymentController extends Controller
         protected SslCommerzService $sslcz
     ) {}
 
-    /**
-     * Initiate payment
-     */
+  
     public function initiate(Request $request)
     {
         $data = $request->validate([
@@ -29,7 +27,7 @@ class PaymentController extends Controller
 
         $tranId = 'TXN_' . Str::upper(Str::random(10)) . '_' . time();
 
-        // Create local payment first
+       
         $payment = Payment::create([
             'tran_id' => $tranId,
             'order_id' => $data['order_id'] ?? null,
@@ -38,7 +36,6 @@ class PaymentController extends Controller
             'status' => 'pending',
         ]);
 
-        // Send payment request to SSLCommerz
         $response = $this->sslcz->initiate([
             'amount' => $payment->amount,
             'tran_id' => $payment->tran_id,
@@ -51,7 +48,6 @@ class PaymentController extends Controller
             'raw_init_response' => $response,
         ]);
 
-        // SSLCommerz initiation failed
         if (
             ($response['status'] ?? null) !== 'SUCCESS' ||
             empty($response['GatewayPageURL'])
@@ -66,15 +62,12 @@ class PaymentController extends Controller
             ], 422);
         }
 
-        // Redirect customer to SSLCommerz
         return redirect()->away(
             $response['GatewayPageURL']
         );
     }
 
-    /**
-     * SSLCommerz success callback
-     */
+   
     public function success(Request $request)
     {
         $tranId = $request->input('tran_id');
@@ -90,7 +83,6 @@ class PaymentController extends Controller
             return redirect('/payment/failed');
         }
 
-        // Verify payment with SSLCommerz
         $this->confirmAndMark($payment, $valId);
 
         $payment = $payment->fresh();
@@ -102,9 +94,7 @@ class PaymentController extends Controller
         return redirect('/payment/failed');
     }
 
-    /**
-     * SSLCommerz fail callback
-     */
+   
     public function fail(Request $request)
     {
         $tranId = $request->input('tran_id');
@@ -122,9 +112,6 @@ class PaymentController extends Controller
         return redirect('/payment/failed');
     }
 
-    /**
-     * SSLCommerz cancel callback
-     */
     public function cancel(Request $request)
     {
         $tranId = $request->input('tran_id');
@@ -142,9 +129,7 @@ class PaymentController extends Controller
         return redirect('/payment/cancelled');
     }
 
-    /**
-     * SSLCommerz IPN callback
-     */
+   
     public function ipn(Request $request)
     {
         $tranId = $request->input('tran_id');
@@ -160,12 +145,10 @@ class PaymentController extends Controller
             return response('Payment not found', 404);
         }
 
-        // Store complete IPN payload
         $payment->update([
             'raw_ipn_payload' => $request->all(),
         ]);
 
-        // Validate payment server-to-server
         if ($valId) {
             $this->confirmAndMark($payment, $valId);
         }
@@ -173,10 +156,7 @@ class PaymentController extends Controller
         return response('IPN received', 200);
     }
 
-    /**
-     * Client-facing payment status API. The response has a stable shape and is
-     * signed with HMAC-SHA256 so the receiving client can verify it.
-     */
+ 
     public function status(string $tranId): JsonResponse
     {
         $payment = Payment::where('tran_id', $tranId)->first();
@@ -235,9 +215,7 @@ class PaymentController extends Controller
         return response()->json($payload);
     }
 
-    /**
-     * Verify transaction with SSLCommerz
-     */
+   
     protected function confirmAndMark(
         Payment $payment,
         ?string $valId
@@ -246,15 +224,12 @@ class PaymentController extends Controller
             return;
         }
 
-        // Don't process successful payment again
         if ($payment->status === 'success') {
             return;
         }
 
-        // Call SSLCommerz validation API
         $validation = $this->sslcz->validateTransaction($valId);
 
-        // Verify SSLCommerz response
         $isValid = $this->sslcz->isValidatedSuccess(
             $validation,
             (float) $payment->amount,

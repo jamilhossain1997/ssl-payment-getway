@@ -1,7 +1,6 @@
 <?php
 
 return [
-    // Set SSLCOMMERZ_MODE=live in production .env
     'mode' => env('SSLCOMMERZ_MODE', 'sandbox'), // sandbox | live
 
     'store_id' => env('SSLCOMMERZ_STORE_ID'),
@@ -20,7 +19,6 @@ return [
         ],
     ],
 
-    // These MUST point to routes registered in routes/web.php (see PaymentController)
     'success_url' => env('APP_URL') . '/payment/success',
     'fail_url' => env('APP_URL') . '/payment/fail',
     'cancel_url' => env('APP_URL') . '/payment/cancel',
