@@ -17,17 +17,17 @@ services:
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
-        value: dpg-daco522fngtc73e632g0-a.singapore-postgres.render.com
+        value: dpg-dak17b61egvs7395q800-a.singapore-postgres.render.com
       - key: DB_PORT
         value: "5432"
       - key: DB_DATABASE
-        value: kanban_db_htzz
+        value: payment_ssl_test
       - key: DB_USERNAME
-        value: kanban_db_htzz_user
+        value: payment_ssl_test_user
       - key: DB_PASSWORD
-        value: c3on3ZfBu70n2dGxSkoPbVDCuEhe9Scs
+        value: 4AH1NSvNSZlvfGnQSKBL0aHUnHcSIdY9
       - key: DATABASE_URL
-        value: postgresql://kanban_db_htzz_user:c3on3ZfBu70n2dGxSkoPbVDCuEhe9Scs@dpg-daco522fngtc73e632g0-a.singapore-postgres.render.com/kanban_db_htzz
+        value: postgresql://payment_ssl_test_user:4AH1NSvNSZlvfGnQSKBL0aHUnHcSIdY9@dpg-dak17b61egvs7395q800-a.singapore-postgres.render.com/payment_ssl_test
 
       - key: SSLCOMMERZ_MODE
         value: sandbox
