@@ -3,7 +3,6 @@ services:
     name: ssl-payment-getway
     runtime: docker
     plan: free
-
     dockerfilePath: ./Dockerfile
 
     envVars:
@@ -20,9 +19,21 @@ services:
         sync: false
 
       - key: DB_CONNECTION
-        value: pgsql
+        value: mysql
 
-      - key: DATABASE_URL
+      - key: DB_HOST
+        sync: false
+
+      - key: DB_PORT
+        value: "3306"
+
+      - key: DB_DATABASE
+        sync: false
+
+      - key: DB_USERNAME
+        sync: false
+
+      - key: DB_PASSWORD
         sync: false
 
       - key: SSLCOMMERZ_MODE
