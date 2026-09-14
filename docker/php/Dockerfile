@@ -8,9 +8,8 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     libzip-dev \
-    libpq-dev \
     && docker-php-ext-install \
-    pdo_pgsql \
+    pdo_mysql \
     mbstring \
     exif \
     pcntl \
@@ -25,21 +24,9 @@ WORKDIR /var/www/html
 
 COPY . .
 
-RUN composer install \
-    --no-dev \
-    --optimize-autoloader \
-    --no-interaction
-
-RUN chown -R www-data:www-data \
-    storage \
-    bootstrap/cache
+RUN composer install --no-dev --optimize-autoloader
 
 EXPOSE 10000
 
 CMD php artisan migrate --force && \
-    php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache && \
-    php artisan serve \
-    --host=0.0.0.0 \
-    --port=${PORT:-10000}
+    php artisan serve --host=0.0.0.0 --port=${PORT:-10000}
