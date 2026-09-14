@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: ssl-payment-getway
+    runtime: docker
+    plan: free
+
+    dockerfilePath: ./Dockerfile
+
+    envVars:
+      - key: APP_ENV
+        value: production
+
+      - key: APP_DEBUG
+        value: "false"
+
+      - key: APP_KEY
+        generateValue: true
+
+      - key: APP_URL
+        sync: false
+
+      - key: DB_CONNECTION
+        value: pgsql
+
+      - key: DATABASE_URL
+        sync: false
+
+      - key: SSLCOMMERZ_MODE
+        value: sandbox
+
+      - key: SSLCOMMERZ_STORE_ID
+        sync: false
+
+      - key: SSLCOMMERZ_STORE_PASSWORD
+        sync: false
