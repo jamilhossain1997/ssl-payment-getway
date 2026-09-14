@@ -34,7 +34,9 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 
 EXPOSE 10000
 
-CMD php artisan migrate --force && \
+# Clears config cache, runs database migrations, caches routes/views, and boots server
+CMD php artisan config:clear && \
+    php artisan migrate --force && \
     php artisan config:cache && \
     php artisan route:cache && \
     php artisan view:cache && \
