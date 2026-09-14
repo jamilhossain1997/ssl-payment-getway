@@ -24,9 +24,19 @@ WORKDIR /var/www/html
 
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install \
+    --no-dev \
+    --optimize-autoloader \
+    --no-interaction
+
+RUN chown -R www-data:www-data storage bootstrap/cache
 
 EXPOSE 10000
 
 CMD php artisan migrate --force && \
-    php artisan serve --host=0.0.0.0 --port=${PORT:-10000}
+    php artisan config:cache && \
+    php artisan route:cache && \
+    php artisan view:cache && \
+    php artisan serve \
+    --host=0.0.0.0 \
+    --port=${PORT:-10000}

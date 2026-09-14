@@ -3,6 +3,7 @@ services:
     name: ssl-payment-getway
     runtime: docker
     plan: free
+
     dockerfilePath: ./Dockerfile
 
     healthCheckPath: /
@@ -23,34 +24,24 @@ services:
       - key: APP_URL
         sync: false
 
-      # PostgreSQL
+      # MySQL
       - key: DB_CONNECTION
-        value: pgsql
+        value: mysql
 
       - key: DB_HOST
-        fromDatabase:
-          name: ssl-payment-db
-          property: host
+        value: sql106.infinityfree.com
 
       - key: DB_PORT
-        fromDatabase:
-          name: ssl-payment-db
-          property: port
+        value: "3306"
 
       - key: DB_DATABASE
-        fromDatabase:
-          name: ssl-payment-db
-          property: database
+        value: if0_42914494_jamil
 
       - key: DB_USERNAME
-        fromDatabase:
-          name: ssl-payment-db
-          property: user
+        value: if0_42914494
 
       - key: DB_PASSWORD
-        fromDatabase:
-          name: ssl-payment-db
-          property: password
+        sync: false
 
       # SSLCommerz
       - key: SSLCOMMERZ_MODE
@@ -61,10 +52,3 @@ services:
 
       - key: SSLCOMMERZ_STORE_PASSWORD
         sync: false
-
-
-databases:
-  - name: ssl-payment-db
-    databaseName: sslcz
-    user: sslcz
-    plan: free
