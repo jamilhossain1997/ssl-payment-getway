@@ -1,17 +1,11 @@
 services:
   - type: web
-    name: ssl-payment-getway
+    name: ssl-payment-gateway
     runtime: docker
     plan: free
-
     dockerfilePath: ./Dockerfile
 
-    healthCheckPath: /
-
     envVars:
-      - key: APP_NAME
-        value: SSL Payment Gateway
-
       - key: APP_ENV
         value: production
 
@@ -24,26 +18,24 @@ services:
       - key: APP_URL
         sync: false
 
-      # MySQL
       - key: DB_CONNECTION
-        value: mysql
+        value: pgsql
 
       - key: DB_HOST
-        value: sql12.freesqldatabase.com
+        sync: false
 
       - key: DB_PORT
-        value: "3306"
+        value: "5432"
 
       - key: DB_DATABASE
-        value: sql12837097
+        sync: false
 
       - key: DB_USERNAME
-        value: sql12837097
+        sync: false
 
       - key: DB_PASSWORD
         sync: false
 
-      # SSLCommerz
       - key: SSLCOMMERZ_MODE
         value: sandbox
 
