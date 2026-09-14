@@ -5,7 +5,12 @@ services:
     plan: free
     dockerfilePath: ./Dockerfile
 
+    healthCheckPath: /
+
     envVars:
+      - key: APP_NAME
+        value: SSL Payment Gateway
+
       - key: APP_ENV
         value: production
 
@@ -18,24 +23,36 @@ services:
       - key: APP_URL
         sync: false
 
+      # PostgreSQL
       - key: DB_CONNECTION
-        value: mysql
+        value: pgsql
 
       - key: DB_HOST
-        sync: false
+        fromDatabase:
+          name: ssl-payment-db
+          property: host
 
       - key: DB_PORT
-        value: "3306"
+        fromDatabase:
+          name: ssl-payment-db
+          property: port
 
       - key: DB_DATABASE
-        sync: false
+        fromDatabase:
+          name: ssl-payment-db
+          property: database
 
       - key: DB_USERNAME
-        sync: false
+        fromDatabase:
+          name: ssl-payment-db
+          property: user
 
       - key: DB_PASSWORD
-        sync: false
+        fromDatabase:
+          name: ssl-payment-db
+          property: password
 
+      # SSLCommerz
       - key: SSLCOMMERZ_MODE
         value: sandbox
 
@@ -44,3 +61,10 @@ services:
 
       - key: SSLCOMMERZ_STORE_PASSWORD
         sync: false
+
+
+databases:
+  - name: ssl-payment-db
+    plan: free
+    databaseName: sslcz
+    user: sslcz
