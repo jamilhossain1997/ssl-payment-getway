@@ -65,6 +65,6 @@ services:
 
 databases:
   - name: ssl-payment-db
-    plan: free
     databaseName: sslcz
     user: sslcz
+    plan: free
