@@ -19,9 +19,23 @@ services:
       - key: DB_CONNECTION
         value: pgsql
 
-      # Paste your full Neon pooled connection URL here or mark sync: false
+      - key: DB_HOST
+        value: dpg-daco522fngtc73e632g0-a
+
+      - key: DB_PORT
+        value: "5432"
+
+      - key: DB_DATABASE
+        value: kanban_db_htzz
+
+      - key: DB_USERNAME
+        value: kanban_db_htzz_user
+
+      - key: DB_PASSWORD
+        value: c3on3ZfBu70n2dGxSkoPbVDCuEhe9Scs
+
       - key: DATABASE_URL
-        sync: false
+        value: postgresql://kanban_db_htzz_user:c3on3ZfBu70n2dGxSkoPbVDCuEhe9Scs@dpg-daco522fngtc73e632g0-a/kanban_db_htzz
 
       - key: SSLCOMMERZ_MODE
         value: sandbox
